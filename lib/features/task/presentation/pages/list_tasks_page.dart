@@ -6,7 +6,7 @@ import '../../domain/entity/task.dart';
 import '../bloc/task_bloc/task_bloc.dart';
 import '../bloc/task_bloc/task_event.dart';
 import '../bloc/task_bloc/task_state.dart';
-import '../widget/create_task_widget.dart';
+import '../widget/create_task_dialog.dart';
 import '../widget/task_widget.dart';
 
 class ListTasksPage extends StatelessWidget {
