@@ -48,115 +48,111 @@ class TaskWidget extends StatelessWidget {
         horizontal: 8.0,
         vertical: 8.0,
       ),
-      child: Theme(
-        data: ThemeData(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          backgroundColor: priorityColor,
-          collapsedBackgroundColor: priorityColor,
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          leading: IconButton(
-            onPressed: () {
-              final toggledTask = task.copyWith(
-                isCompleted: !task.isCompleted,
-              );
-              context.read<TaskBloc>().add(
-                    ToggleTaskCompletionEvent(toggledTask),
-                  );
-            },
-            icon: Icon(
-              task.isCompleted
-                  ? Icons.check_circle
-                  : Icons.radio_button_unchecked,
-              color: task.isCompleted ? Colors.green : Colors.grey,
+      child: ExpansionTile(
+        backgroundColor: priorityColor,
+        collapsedBackgroundColor: priorityColor,
+        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+        leading: IconButton(
+          onPressed: () {
+            final toggledTask = task.copyWith(
+              isCompleted: !task.isCompleted,
+            );
+            context.read<TaskBloc>().add(
+                  ToggleTaskCompletionEvent(toggledTask),
+                );
+          },
+          icon: Icon(
+            task.isCompleted
+                ? Icons.check_circle
+                : Icons.radio_button_unchecked,
+            color: task.isCompleted ? Colors.green : Colors.grey,
+          ),
+        ),
+        title: Text(task.title,
+            style: textTheme.titleSmall?.copyWith(
+              decoration: task.isCompleted ? TextDecoration.lineThrough : null,
+            )),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color:
+                        _getPriorityColor(task.priority).withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    task.priority.name.toUpperCase(),
+                    style: TextStyle(
+                      color: _getPriorityColor(task.priority),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  _formatDate(task.createdAt),
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ],
             ),
           ),
-          title: Text(task.title,
-              style: textTheme.titleSmall?.copyWith(
-                decoration:
-                    task.isCompleted ? TextDecoration.lineThrough : null,
-              )),
-          children: [
+          if (task.description != null && task.description!.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: _getPriorityColor(task.priority)
-                          .withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      task.priority.name.toUpperCase(),
-                      style: TextStyle(
-                        color: _getPriorityColor(task.priority),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    _formatDate(task.createdAt),
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ],
+              padding: const EdgeInsets.all(8),
+              child: Text(
+                task.description!,
+                style: const TextStyle(fontSize: 14),
               ),
             ),
-            if (task.description != null && task.description!.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  task.description!,
-                  style: const TextStyle(fontSize: 14),
-                ),
-              ),
-            const SizedBox(height: 32),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //outlinedBtn
-                  FilledButton.icon(
-                    icon: Icon(Icons.edit_note),
-                    onPressed: () {
-                      updateTaskDialog(
-                          context: context,
-                          task: task,
-                          onSubmit: (updatedTask) {
-                            context
-                                .read<TaskBloc>()
-                                .add(UpdateTaskEvent(updatedTask));
-                          });
-                    },
-                    label: const Text("Update"),
-                  ),
-                  //deleteBtn
-                  FilledButton.icon(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.red),
-                    ),
-                    onPressed: () async {
-                      await showDeleteDialog(
+          const SizedBox(height: 32),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                //outlinedBtn
+                FilledButton.icon(
+                  icon: Icon(Icons.edit_note),
+                  onPressed: () {
+                    updateTaskDialog(
                         context: context,
-                        onConfirm: () {
-                          context.read<TaskBloc>().add(DeleteTaskEvent(task));
-                        },
-                        title: task.title,
-                      );
-                    },
-                    label: const Text("Delete"),
-                    icon: const Icon(Icons.delete_forever_rounded),
+                        task: task,
+                        onSubmit: (updatedTask) {
+                          context
+                              .read<TaskBloc>()
+                              .add(UpdateTaskEvent(updatedTask));
+                        });
+                  },
+                  label: const Text("Update"),
+                ),
+                //deleteBtn
+                FilledButton.icon(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.red),
                   ),
-                ],
-              ),
+                  onPressed: () async {
+                    await showDeleteDialog(
+                      context: context,
+                      onConfirm: () {
+                        context.read<TaskBloc>().add(DeleteTaskEvent(task));
+                      },
+                      title: task.title,
+                    );
+                  },
+                  label: const Text("Delete"),
+                  icon: const Icon(Icons.delete_forever_rounded),
+                ),
+              ],
             ),
-            const SizedBox(height: 12),
-          ],
-        ),
+          ),
+          const SizedBox(height: 12),
+        ],
       ),
     );
   }

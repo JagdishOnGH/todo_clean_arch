@@ -4,7 +4,9 @@ sealed class TaskEvent {
   const TaskEvent();
 }
 
-class LoadAllTaskEvent extends TaskEvent {}
+class LoadAllTaskEvent extends TaskEvent {
+  const LoadAllTaskEvent();
+}
 
 class AddTaskEvent extends TaskEvent {
   final Task task;
