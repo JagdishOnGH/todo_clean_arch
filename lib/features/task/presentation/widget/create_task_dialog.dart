@@ -15,12 +15,12 @@ Future<void> showTaskFormDialog(BuildContext context) {
 
   return showDialog(
     context: context,
-    builder: (_) => AlertDialog(
-      title: const Text("Add Task"),
-      content: StatefulBuilder(
-        builder: (context, setState) => Form(
-          key: _formKey,
-          child: SingleChildScrollView(
+    builder: (_) => SingleChildScrollView(
+      child: AlertDialog(
+        title: const Text("Add Task"),
+        content: StatefulBuilder(
+          builder: (context, setState) => Form(
+            key: _formKey,
             child: SizedBox(
               width: 400,
               child: Column(
@@ -73,30 +73,30 @@ Future<void> showTaskFormDialog(BuildContext context) {
             ),
           ),
         ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text("Cancel"),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              final Task task = Task(
-                  id: DateTime.now().millisecondsSinceEpoch,
-                  title: titleController.text,
-                  createdAt: DateTime.now(),
-                  description: descController.text,
-                  priority: selectedPriority);
-              context.read<TaskBloc>().add(AddTaskEvent(task));
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                final Task task = Task(
+                    id: DateTime.now().millisecondsSinceEpoch,
+                    title: titleController.text,
+                    createdAt: DateTime.now(),
+                    description: descController.text,
+                    priority: selectedPriority);
+                context.read<TaskBloc>().add(AddTaskEvent(task));
 
-              Navigator.of(context).pop();
-              // Handle newTask with Bloc or Provider (emit event or call notifier)
-            }
-          },
-          child: const Text("Submit"),
-        ),
-      ],
+                Navigator.of(context).pop();
+                // Handle newTask with Bloc or Provider (emit event or call notifier)
+              }
+            },
+            child: const Text("Submit"),
+          ),
+        ],
+      ),
     ),
   );
 }

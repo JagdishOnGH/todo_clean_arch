@@ -9,7 +9,7 @@ Future<void> showDeleteDialog({
 }) {
   return showDialog(
     context: context,
-    barrierDismissible: false, // Prevent dismissing by tapping outside
+    barrierDismissible: true, // Prevent dismissing by tapping outside
     builder: (_) => PopScope(
       canPop: false, // Prevent back button dismiss
       child: AlertDialog(
@@ -17,7 +17,7 @@ Future<void> showDeleteDialog({
         content: Text('Are you sure you want to delete "$title"?'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+            onPressed: () => Navigator.of(context).pop(),
             child: const Text('Cancel'),
           ),
           ElevatedButton(

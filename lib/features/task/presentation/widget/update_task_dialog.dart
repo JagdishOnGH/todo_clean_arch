@@ -16,56 +16,55 @@ Future<void> updateTaskDialog({
   return showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (_) => PopScope(
-      canPop: false,
+    builder: (_) => SingleChildScrollView(
       child: AlertDialog(
         title: const Text('Edit Task'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                width: 400,
+        alignment: Alignment.center,
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(
+              width: 400,
+            ),
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(
+                labelText: 'Title *',
+                border: OutlineInputBorder(),
               ),
-              TextField(
-                controller: titleController,
-                decoration: const InputDecoration(
-                  labelText: 'Title *',
-                  border: OutlineInputBorder(),
-                ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: descController,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: 'Description (optional)',
+                border: OutlineInputBorder(),
               ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: descController,
-                maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: 'Description (optional)',
-                  border: OutlineInputBorder(),
-                ),
+            ),
+            const SizedBox(height: 12),
+            DropdownButtonFormField<TaskPriority>(
+              value: selectedPriority,
+              decoration: const InputDecoration(
+                labelText: 'Priority *',
+                border: OutlineInputBorder(),
               ),
-              const SizedBox(height: 12),
-              DropdownButtonFormField<TaskPriority>(
-                value: selectedPriority,
-                decoration: const InputDecoration(
-                  labelText: 'Priority *',
-                  border: OutlineInputBorder(),
-                ),
-                items: TaskPriority.values
-                    .map(
-                      (priority) => DropdownMenuItem(
-                        value: priority,
-                        child: Text(priority.asString),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  if (value != null) {
-                    selectedPriority = value;
-                  }
-                },
-              ),
-            ],
-          ),
+              items: TaskPriority.values
+                  .map(
+                    (priority) => DropdownMenuItem(
+                      value: priority,
+                      child: Text(priority.asString),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  selectedPriority = value;
+                }
+              },
+            ),
+          ],
         ),
         actions: [
           TextButton(
