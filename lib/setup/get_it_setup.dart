@@ -10,7 +10,7 @@ import '../features/task/domain/usecase/create_task_usecase.dart';
 import '../features/task/domain/usecase/delete_task_usecase.dart';
 import '../features/task/domain/usecase/get_all_tasks_usecase.dart';
 import '../features/task/domain/usecase/toggle_task_usecase.dart';
-import '../features/task/presentation/task_bloc/task_bloc.dart';
+import '../features/task/presentation/bloc/task_bloc/task_bloc.dart';
 import 'floor_setup.dart';
 
 final sl = GetIt.instance;
