@@ -1,7 +1,14 @@
 enum TaskPriority { high, medium, low }
 
+extension TaskPriorityExtension on TaskPriority {
+  String get asString {
+    final name = toString().split('.').last;
+    return name[0].toUpperCase() + name.substring(1); // Capitalize first letter
+  }
+}
+
 class Task {
-  final String id;
+  final int id;
   final String title;
   final String? description;
   final bool isCompleted;
@@ -19,7 +26,7 @@ class Task {
   });
 
   Task copyWith({
-    String? id,
+    int? id,
     String? title,
     String? description,
     bool? isCompleted,

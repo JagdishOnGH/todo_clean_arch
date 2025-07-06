@@ -26,7 +26,7 @@ class TaskModel {
 //toEntity
   Task toEntity() {
     return Task(
-      id: id.toString(),
+      id: id,
       title: name,
       description: description,
       isCompleted: isCompleted,
@@ -55,7 +55,7 @@ class TaskModel {
 
   //fromEntity
   factory TaskModel.fromEntity(Task task) {
-    final id = int.tryParse(task.id) ?? DateTime.now().millisecondsSinceEpoch;
+    final id = task.id ?? DateTime.now().millisecondsSinceEpoch;
     return TaskModel(
       id: id,
       name: task.title,
