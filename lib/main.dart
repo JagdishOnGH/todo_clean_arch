@@ -5,7 +5,6 @@ import 'package:todo_clean_arch/core/app_theme/app_theme_dark.dart';
 import 'package:todo_clean_arch/features/task/presentation/pages/list_tasks_page.dart';
 import 'package:todo_clean_arch/setup/get_it_setup.dart';
 
-import 'features/task/presentation/bloc/filter_cubit/filter_cubit.dart';
 import 'features/task/presentation/bloc/task_bloc/task_bloc.dart';
 import 'features/task/presentation/bloc/task_bloc/task_event.dart';
 
@@ -21,12 +20,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<TaskBloc>(
-          create: (context) => sl<TaskBloc>()..add(LoadAllTaskEvent()),
-        ),
-      ],
+    return BlocProvider(
+      create: (_) => sl<TaskBloc>()..add(const LoadAllTaskEvent()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Task Management',
