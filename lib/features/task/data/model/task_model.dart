@@ -4,6 +4,7 @@ import 'package:floor/floor.dart';
 
 import '../../domain/entity/task.dart';
 
+// TaskModel that is tied to the database schema
 @entity
 class TaskModel {
   @primaryKey

@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
 import 'package:todo_clean_arch/features/task/data/model/task_model.dart';
 
+//task dao to perform database operation
 @dao
 abstract class TaskDao {
   @Insert(onConflict: OnConflictStrategy.abort)

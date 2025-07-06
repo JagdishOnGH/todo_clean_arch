@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../domain/entity/task.dart';
 
+/// Displays a dialog for updating an existing task.
+
 Future<void> updateTaskDialog({
   required BuildContext context,
   required Task task,

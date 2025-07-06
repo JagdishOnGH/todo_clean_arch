@@ -1,3 +1,5 @@
+//pure dart business representation of a task entity
+
 enum TaskPriority { high, medium, low }
 
 extension TaskPriorityExtension on TaskPriority {

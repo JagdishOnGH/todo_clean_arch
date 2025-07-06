@@ -9,6 +9,7 @@ import '../bloc/task_bloc/task_bloc.dart';
 import '../bloc/task_bloc/task_event.dart';
 import 'delete_task_dialog.dart';
 
+/// This widget displays a single task with its details and provides options to update or delete it.
 class TaskWidget extends StatelessWidget {
   final Task task;
 

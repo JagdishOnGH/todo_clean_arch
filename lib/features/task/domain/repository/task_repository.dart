@@ -3,6 +3,8 @@ import 'package:todo_clean_arch/core/domain/result.dart';
 import '../../../../core/domain/failures.dart';
 import '../entity/task.dart';
 
+//abstract respository  that defines that this module do,
+
 abstract class ITaskRepository {
   Future<Result<List<Task>, Failure>> getAllTasks();
 

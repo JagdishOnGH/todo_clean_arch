@@ -8,6 +8,8 @@ import '../features/task/data/model/task_model.dart';
 
 part 'floor_setup.g.dart';
 
+/// This is the setup for Floor, a persistence library for Flutter that uses SQLite.
+
 @Database(version: 1, entities: [TaskModel])
 abstract class AppDatabase extends FloorDatabase {
   TaskDao get taskDao;

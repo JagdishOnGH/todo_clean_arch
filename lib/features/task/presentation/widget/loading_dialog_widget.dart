@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// This dialog is used to show a loading indicator with an optional message.
+
 Future<void> showUnskippableLoadingDialog(BuildContext context,
     {String? message}) {
   return showDialog(

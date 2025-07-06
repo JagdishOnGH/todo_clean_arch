@@ -9,6 +9,7 @@ import '../bloc/task_bloc/task_state.dart';
 import '../widget/create_task_dialog.dart';
 import '../widget/task_widget.dart';
 
+// This page displays a list of tasks and allows users to filter, add, and manage tasks.
 class ListTasksPage extends StatelessWidget {
   const ListTasksPage({super.key});
 

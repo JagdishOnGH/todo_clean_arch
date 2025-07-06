@@ -1,5 +1,6 @@
 import '../model/task_model.dart';
 
+//abstract itaskdatasourc for better testing and dependency inversion
 abstract class ITaskDataSource {
   Future<bool> addTask(TaskModel task);
 

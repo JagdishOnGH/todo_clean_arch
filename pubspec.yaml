@@ -42,6 +42,7 @@ dependencies:
   flutter_bloc: ^9.1.1
 
 dev_dependencies:
+  test:
   flutter_test:
     sdk: flutter
 

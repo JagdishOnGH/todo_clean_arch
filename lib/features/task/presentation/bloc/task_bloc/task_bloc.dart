@@ -9,6 +9,8 @@ import '../../../domain/usecase/update_task_usecase.dart';
 import 'task_event.dart';
 import 'task_state.dart';
 
+// TaskBloc that handles task-related events and states and calls to
+// the use cases to perform operations on tasks.
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   //ask for create, delete, update, toggle, getall usecases of domain
   final CreateTaskUseCase createTaskUseCase;

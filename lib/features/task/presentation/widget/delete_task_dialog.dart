@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// This dialog is used to confirm task deletion.
+
 Future<void> showDeleteDialog({
   required BuildContext context,
   required VoidCallback onConfirm,

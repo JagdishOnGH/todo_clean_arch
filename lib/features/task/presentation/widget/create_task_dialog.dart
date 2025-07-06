@@ -5,6 +5,8 @@ import 'package:todo_clean_arch/features/task/domain/entity/task.dart';
 import '../bloc/task_bloc/task_bloc.dart';
 import '../bloc/task_bloc/task_event.dart';
 
+/// This dialog is used to create a new task with a title, description, and priority.
+
 Future<void> showTaskFormDialog(BuildContext context) {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
