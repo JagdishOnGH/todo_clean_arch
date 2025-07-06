@@ -1,3 +1,5 @@
+import '../../../../core/domain/failures.dart';
+import '../../../../core/domain/result.dart';
 import '../entity/task.dart';
 import '../repository/task_repository.dart';
 
@@ -6,7 +8,7 @@ class ToggleTaskUseCase {
 
   ToggleTaskUseCase(this._taskRepository);
 
-  Future<void> call(Task task) async {
-    await _taskRepository.updateTask(task);
+  Future<Result<bool, Failure>> call(Task task) async {
+    return await _taskRepository.updateTask(task);
   }
 }
