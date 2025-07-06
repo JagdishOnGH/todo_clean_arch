@@ -7,20 +7,20 @@ import '../bloc/task_bloc/task_event.dart';
 
 /// This dialog is used to create a new task with a title, description, and priority.
 
-Future<void> showTaskFormDialog(BuildContext context) {
-  final _formKey = GlobalKey<FormState>();
+Future<void> showTaskFormDialog(BuildContext con) {
+  final formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   TaskPriority selectedPriority = TaskPriority.medium;
 
   return showDialog(
-    context: context,
-    builder: (_) => SingleChildScrollView(
+    context: con,
+    builder: (context) => SingleChildScrollView(
       child: AlertDialog(
         title: const Text("Add Task"),
         content: StatefulBuilder(
-          builder: (context, setState) => Form(
-            key: _formKey,
+          builder: (ctx, setState) => Form(
+            key: formKey,
             child: SizedBox(
               width: 400,
               child: Column(
@@ -80,7 +80,7 @@ Future<void> showTaskFormDialog(BuildContext context) {
           ),
           ElevatedButton(
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
+              if (formKey.currentState!.validate()) {
                 final Task task = Task(
                     id: DateTime.now().millisecondsSinceEpoch,
                     title: titleController.text,

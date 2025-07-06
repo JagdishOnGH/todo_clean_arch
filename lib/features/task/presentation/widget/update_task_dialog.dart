@@ -16,7 +16,7 @@ Future<void> updateTaskDialog({
   return showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (_) => SingleChildScrollView(
+    builder: (context) => SingleChildScrollView(
       child: AlertDialog(
         title: const Text('Edit Task'),
         alignment: Alignment.center,

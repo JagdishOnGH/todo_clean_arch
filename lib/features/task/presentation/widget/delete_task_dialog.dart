@@ -10,7 +10,7 @@ Future<void> showDeleteDialog({
   return showDialog(
     context: context,
     barrierDismissible: true, // Prevent dismissing by tapping outside
-    builder: (_) => PopScope(
+    builder: (context) => PopScope(
       canPop: false, // Prevent back button dismiss
       child: AlertDialog(
         title: const Text('Delete Task'),
