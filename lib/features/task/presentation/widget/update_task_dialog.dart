@@ -24,6 +24,9 @@ Future<void> updateTaskDialog({
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              const SizedBox(
+                width: 400,
+              ),
               TextField(
                 controller: titleController,
                 decoration: const InputDecoration(

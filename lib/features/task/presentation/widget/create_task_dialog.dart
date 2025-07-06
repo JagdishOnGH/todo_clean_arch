@@ -22,7 +22,7 @@ Future<void> showTaskFormDialog(BuildContext context) {
           key: _formKey,
           child: SingleChildScrollView(
             child: SizedBox(
-              width: double.maxFinite,
+              width: 400,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
