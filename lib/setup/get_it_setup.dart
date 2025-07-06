@@ -9,6 +9,8 @@ import '../features/task/domain/repository/task_repository.dart';
 import '../features/task/domain/usecase/create_task_usecase.dart';
 import '../features/task/domain/usecase/delete_task_usecase.dart';
 import '../features/task/domain/usecase/get_all_tasks_usecase.dart';
+import '../features/task/domain/usecase/toggle_task_usecase.dart';
+import '../features/task/presentation/task_bloc/task_bloc.dart';
 import 'floor_setup.dart';
 
 final sl = GetIt.instance;
@@ -31,4 +33,16 @@ Future<void> getItSetup() async {
       DeleteTaskUseCase(sl<ITaskRepository>()));
   sl.registerSingleton<UpdateTaskUseCase>(
       UpdateTaskUseCase(sl<ITaskRepository>()));
+
+  sl.registerSingleton<ToggleTaskUseCase>(
+      ToggleTaskUseCase(sl<ITaskRepository>()));
+
+  //register bloc
+  sl.registerFactory<TaskBloc>(() => TaskBloc(
+        createTaskUseCase: sl<CreateTaskUseCase>(),
+        deleteTaskUseCase: sl<DeleteTaskUseCase>(),
+        updateTaskUseCase: sl<UpdateTaskUseCase>(),
+        getAllTasksUseCase: sl<GetAllTasksUseCase>(),
+        toggleTaskCompletionUseCase: sl<ToggleTaskUseCase>(),
+      ));
 }
