@@ -1,16 +1,56 @@
-# todo_clean_arch
+# Flutter Todo Clean Architecture
 
-A new Flutter project.
+A Flutter todo application built with Clean Architecture principles, featuring BLoC state management, dual theme support, and CRUD operations.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Create, Read, Update, Delete todos
+- Filter todos by completed/uncompleted status
+- Clean Architecture with layer separation
+- BLoC state management for testability
+- Dual theme support (Light/Dark)
+- SQLite local storage
 
-A few resources to get you started if this is your first Flutter project:
+## Requirements
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter 3.27.1
+- Dart SDK
+- Internet connection for initial setup
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/JagdishOnGH/todo_clean_arch.git
+```
+
+2. Install dependencies:
+```bash
+flutter pub get
+```
+
+3. Generate code:
+```bash
+dart run build_runner build
+```
+
+4. Run the app:
+```bash
+flutter run
+```
+
+**Note**: This app won't run on web as SQLite is not supported yet.
+
+## Architecture
+
+The app follows Clean Architecture principles with three main layers:
+
+- **Presentation Layer**: UI components and BLoC state management
+- **Domain Layer**: Business logic and use cases
+- **Data Layer**: Repository implementations and data sources
+
+This promotes:
+- Separation of concerns
+- Testability
+- Maintainability
+- Robust state management
