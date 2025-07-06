@@ -1,4 +1,4 @@
-import '../../domain/entity/task.dart';
+import '../../../domain/entity/task.dart';
 
 sealed class TaskState {
   const TaskState();

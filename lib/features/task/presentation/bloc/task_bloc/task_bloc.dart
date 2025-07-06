@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_clean_arch/features/task/presentation/task_bloc/task_event.dart';
-import 'package:todo_clean_arch/features/task/presentation/task_bloc/task_state.dart';
 
-import '../../domain/entity/task.dart';
-import '../../domain/usecase/create_task_usecase.dart';
-import '../../domain/usecase/delete_task_usecase.dart';
-import '../../domain/usecase/get_all_tasks_usecase.dart';
-import '../../domain/usecase/toggle_task_usecase.dart';
-import '../../domain/usecase/update_task_usecase.dart';
+import '../../../domain/entity/task.dart';
+import '../../../domain/usecase/create_task_usecase.dart';
+import '../../../domain/usecase/delete_task_usecase.dart';
+import '../../../domain/usecase/get_all_tasks_usecase.dart';
+import '../../../domain/usecase/toggle_task_usecase.dart';
+import '../../../domain/usecase/update_task_usecase.dart';
+import 'task_event.dart';
+import 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   //ask for create, delete, update, toggle, getall usecases of domain
