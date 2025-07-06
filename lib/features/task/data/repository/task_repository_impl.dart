@@ -17,9 +17,9 @@ class TaskRepositoryImpl implements ITaskRepository {
     try {
       final result =
           await taskDataSource.deleteTask(TaskModel.fromEntity(task));
-      return Success(result);
+      return DomainSuccess(result);
     } catch (e) {
-      return Error(CacheFailure("Failed to delete task: $e"));
+      return DomainFailure(CacheFailure("Failed to delete task: $e"));
     }
   }
 
@@ -28,9 +28,9 @@ class TaskRepositoryImpl implements ITaskRepository {
     try {
       final taskModels = await taskDataSource.getAllTasks();
       final tasks = taskModels.map((model) => model.toEntity()).toList();
-      return Success(tasks);
+      return DomainSuccess(tasks);
     } catch (e) {
-      return Error(CacheFailure("Failed to fetch tasks: $e"));
+      return DomainFailure(CacheFailure("Failed to fetch tasks: $e"));
     }
   }
 
@@ -39,12 +39,12 @@ class TaskRepositoryImpl implements ITaskRepository {
     try {
       final taskModel = await taskDataSource.getTaskById(id);
       if (taskModel != null) {
-        return Success(taskModel.toEntity());
+        return DomainSuccess(taskModel.toEntity());
       } else {
-        return Success(null);
+        return DomainSuccess(null);
       }
     } catch (e) {
-      return Error(CacheFailure("Failed to fetch task by id: $e"));
+      return DomainFailure(CacheFailure("Failed to fetch task by id: $e"));
     }
   }
 
@@ -53,9 +53,9 @@ class TaskRepositoryImpl implements ITaskRepository {
     try {
       final result =
           await taskDataSource.updateTask(TaskModel.fromEntity(task));
-      return Success(result);
+      return DomainSuccess(result);
     } catch (e) {
-      return Error(CacheFailure("Failed to update task: $e"));
+      return DomainFailure(CacheFailure("Failed to update task: $e"));
     }
   }
 
@@ -63,9 +63,9 @@ class TaskRepositoryImpl implements ITaskRepository {
   Future<Result<bool, Failure>> createTask(Task task) async {
     try {
       final result = await taskDataSource.addTask(TaskModel.fromEntity(task));
-      return Success(result);
+      return DomainSuccess(result);
     } catch (e) {
-      return Error(CacheFailure("Failed to create task: $e"));
+      return DomainFailure(CacheFailure("Failed to create task: $e"));
     }
   }
 }

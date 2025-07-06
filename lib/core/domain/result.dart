@@ -1,38 +1,38 @@
 sealed class Result<TValue, TError> {
   const Result();
 
-  bool get isSuccess => this is Success<TValue, TError>;
+  bool get isSuccess => this is DomainSuccess<TValue, TError>;
 
-  bool get isFailure => this is Error<TValue, TError>;
+  bool get isFailure => this is DomainFailure<TValue, TError>;
 
-  TValue get value => (this as Success<TValue, TError>).value;
+  TValue get value => (this as DomainSuccess<TValue, TError>).value;
 
-  TError get error => (this as Error<TValue, TError>).error;
+  TError get error => (this as DomainFailure<TValue, TError>).error;
 
   @override
   String toString() {
     return switch (this) {
-      Success() => 'Success(value: $value)',
-      Error() => 'Failure(error: $error)',
+      DomainSuccess() => 'Success(value: $value)',
+      DomainFailure() => 'Failure(error: $error)',
     };
   }
 }
 
-class Success<T, E> extends Result<T, E> {
+class DomainSuccess<T, E> extends Result<T, E> {
   @override
   final T value;
 
-  const Success(this.value);
+  const DomainSuccess(this.value);
 
   @override
   String toString() => 'Success(value: $value)';
 }
 
-class Error<T, E> extends Result<T, E> {
+class DomainFailure<T, E> extends Result<T, E> {
   @override
   final E error;
 
-  const Error(this.error);
+  const DomainFailure(this.error);
 
   @override
   String toString() => 'Failure(error: $error)';
