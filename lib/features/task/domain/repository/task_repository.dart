@@ -6,7 +6,7 @@ import '../entity/task.dart';
 abstract class ITaskRepository {
   Future<Result<List<Task>, Failure>> getAllTasks();
 
-  Future<Result<Task?, Failure>> getTaskById(String id);
+  Future<Result<Task?, Failure>> getTaskById(int id);
 
   Future<Result<bool, Failure>> createTask(Task task);
 

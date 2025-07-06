@@ -38,7 +38,7 @@ class LocalTaskDataSourceImpl implements ITaskDataSource {
   }
 
   @override
-  Future<TaskModel?> getTaskById(String id) {
+  Future<TaskModel?> getTaskById(int id) {
     try {
       return taskDao.getTaskById(id);
     } catch (e) {

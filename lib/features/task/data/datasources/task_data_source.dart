@@ -9,5 +9,5 @@ abstract class ITaskDataSource {
 
   Future<List<TaskModel>> getAllTasks();
 
-  Future<TaskModel?> getTaskById(String id);
+  Future<TaskModel?> getTaskById(int id);
 }

@@ -33,7 +33,7 @@ class TaskRepositoryImpl implements ITaskRepository {
   }
 
   @override
-  Future<Result<Task?, Failure>> getTaskById(String id) async {
+  Future<Result<Task?, Failure>> getTaskById(int id) async {
     try {
       final taskModel = await taskDataSource.getTaskById(id);
       if (taskModel != null) {

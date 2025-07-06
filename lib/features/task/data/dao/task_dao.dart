@@ -16,5 +16,5 @@ abstract class TaskDao {
   Future<List<TaskModel>> getAllTasks();
 
   @Query('SELECT * FROM TaskModel WHERE id = :id')
-  Future<TaskModel?> getTaskById(String id);
+  Future<TaskModel?> getTaskById(int id);
 }
