@@ -1,11 +1,11 @@
 sealed class Result<TValue, TError> {
   const Result();
 
-  bool get isSuccess => this is Success<TValue, Error>;
+  bool get isSuccess => this is Success<TValue, TError>;
 
-  bool get isFailure => this is Error<TValue, Error>;
+  bool get isFailure => this is Error<TValue, TError>;
 
-  TValue get value => (this as Success<TValue, Error>).value;
+  TValue get value => (this as Success<TValue, TError>).value;
 
   TError get error => (this as Error<TValue, TError>).error;
 
