@@ -6,7 +6,7 @@ class Task {
   final String? description;
   final bool isCompleted;
   final DateTime createdAt;
-  final DateTime? dueDate;
+
   final TaskPriority priority;
 
   const Task({
@@ -15,7 +15,6 @@ class Task {
     this.description,
     this.isCompleted = false,
     required this.createdAt,
-    this.dueDate,
     this.priority = TaskPriority.medium,
   });
 
@@ -34,7 +33,6 @@ class Task {
       description: description ?? this.description,
       isCompleted: isCompleted ?? this.isCompleted,
       createdAt: createdAt ?? this.createdAt,
-      dueDate: dueDate ?? this.dueDate,
       priority: priority ?? this.priority,
     );
   }
