@@ -96,7 +96,8 @@ final darkTheme = ThemeData(
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: WidgetStateProperty.all(Colors.red),
+      backgroundColor:
+          WidgetStateProperty.all(Colors.white.withValues(alpha: 0.1)),
       foregroundColor: WidgetStateProperty.all(Colors.white),
       side: WidgetStateProperty.all(
         const BorderSide(color: Colors.white),
