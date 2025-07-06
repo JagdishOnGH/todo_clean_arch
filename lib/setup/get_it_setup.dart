@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:todo_clean_arch/core/app_constants.dart';
-import 'package:todo_clean_arch/features/task/data/datasources/local_task_data_source.dart';
+import 'package:todo_clean_arch/features/task/data/datasources/local_task_data_source_impl.dart';
 import 'package:todo_clean_arch/features/task/data/datasources/task_data_source.dart';
 import 'package:todo_clean_arch/features/task/domain/usecase/update_task_usecase.dart';
 
