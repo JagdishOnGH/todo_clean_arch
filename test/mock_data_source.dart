@@ -12,8 +12,6 @@ class MockDataSource implements ITaskDataSource {
       throw CacheException("Task with id ${task.id} already exists.");
     }
     tasks.add(task);
-    print("Task added: ${task.name}");
-    print(tasks);
     return true;
   }
 
@@ -30,7 +28,7 @@ class MockDataSource implements ITaskDataSource {
 
   @override
   Future<TaskModel?> getTaskById(int id) async {
-    final TaskModel? task = tasks.firstWhere(
+    final TaskModel task = tasks.firstWhere(
       (t) => t.id == id,
     );
     return Future.value(task);

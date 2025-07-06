@@ -56,7 +56,7 @@ class TaskModel {
 
   //fromEntity
   factory TaskModel.fromEntity(Task task) {
-    final id = task.id ?? DateTime.now().millisecondsSinceEpoch;
+    final id = task.id;
     return TaskModel(
       id: id,
       name: task.title,

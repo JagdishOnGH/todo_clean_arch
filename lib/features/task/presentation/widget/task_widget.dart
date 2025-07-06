@@ -41,7 +41,6 @@ class TaskWidget extends StatelessWidget {
     final priorityColor =
         _getPriorityColor(task.priority).withValues(alpha: 0.2);
     final textTheme = context.textTheme;
-    final theme = context.theme;
 
     return Card(
       clipBehavior: Clip.antiAlias,
