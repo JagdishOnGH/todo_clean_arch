@@ -29,3 +29,9 @@ class ToggleTaskCompletionEvent extends TaskEvent {
 
   const ToggleTaskCompletionEvent(this.task);
 }
+
+class FilterTasksEvent extends TaskEvent {
+  final bool? isCompleted;
+
+  const FilterTasksEvent(this.isCompleted);
+}

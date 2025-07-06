@@ -29,9 +29,31 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<DeleteTaskEvent>(_onDeleteTask);
     on<UpdateTaskEvent>(_onUpdateTask);
     on<ToggleTaskCompletionEvent>(_onToggleTaskCompletion);
+    on<FilterTasksEvent>(_onFilterTasks);
   }
 
   List<Task> allTasks = [];
+
+  // void filterTasks(bool? isCompleted) {
+  //   if (isCompleted == null) {
+  //     add(LoadAllTaskEvent());
+  //   } else {
+  //     final filteredTasks =
+  //         allTasks.where((task) => task.isCompleted == isCompleted).toList();
+  //     emit(TaskLoadedState(filteredTasks));
+  //   }
+  // }
+
+  void _onFilterTasks(FilterTasksEvent event, Emitter<TaskState> emit) {
+    if (event.isCompleted == null) {
+      add(LoadAllTaskEvent());
+    } else {
+      final filteredTasks = allTasks
+          .where((task) => task.isCompleted == event.isCompleted)
+          .toList();
+      emit(TaskLoadedState(filteredTasks));
+    }
+  }
 
   Future<void> _onLoadAllTasks(
       LoadAllTaskEvent event, Emitter<TaskState> emit) async {

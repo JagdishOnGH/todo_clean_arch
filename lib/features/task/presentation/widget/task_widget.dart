@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_clean_arch/core/extentions/on_build_context.dart';
+import 'package:todo_clean_arch/features/task/presentation/widget/update_task_dialog.dart';
 
 import '../../domain/entity/task.dart';
+import '../bloc/task_bloc/task_bloc.dart';
+import '../bloc/task_bloc/task_event.dart';
+import 'delete_task_dialog.dart';
 
 class TaskWidget extends StatelessWidget {
   final Task task;
-  final VoidCallback? onDelete;
-  final VoidCallback? onUpdate;
+
   final VoidCallback? onToggleComplete;
 
   const TaskWidget({
     super.key,
     required this.task,
-    this.onDelete,
     this.onToggleComplete,
-    this.onUpdate,
   });
 
   Color _getPriorityColor(TaskPriority priority) {
@@ -53,7 +55,14 @@ class TaskWidget extends StatelessWidget {
           collapsedBackgroundColor: priorityColor,
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           leading: IconButton(
-            onPressed: onToggleComplete,
+            onPressed: () {
+              final toggledTask = task.copyWith(
+                isCompleted: !task.isCompleted,
+              );
+              context.read<TaskBloc>().add(
+                    ToggleTaskCompletionEvent(toggledTask),
+                  );
+            },
             icon: Icon(
               task.isCompleted
                   ? Icons.check_circle
@@ -113,7 +122,16 @@ class TaskWidget extends StatelessWidget {
                   //outlinedBtn
                   FilledButton.icon(
                     icon: Icon(Icons.edit_note),
-                    onPressed: onUpdate,
+                    onPressed: () {
+                      updateTaskDialog(
+                          context: context,
+                          task: task,
+                          onSubmit: (updatedTask) {
+                            context
+                                .read<TaskBloc>()
+                                .add(UpdateTaskEvent(updatedTask));
+                          });
+                    },
                     label: const Text("Update"),
                   ),
                   //deleteBtn
@@ -121,7 +139,15 @@ class TaskWidget extends StatelessWidget {
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.red),
                     ),
-                    onPressed: onDelete,
+                    onPressed: () async {
+                      await showDeleteDialog(
+                        context: context,
+                        onConfirm: () {
+                          context.read<TaskBloc>().add(DeleteTaskEvent(task));
+                        },
+                        title: task.title,
+                      );
+                    },
                     label: const Text("Delete"),
                     icon: const Icon(Icons.delete_forever_rounded),
                   ),
