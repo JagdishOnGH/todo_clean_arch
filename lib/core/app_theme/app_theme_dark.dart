@@ -54,6 +54,8 @@ final darkTheme = ThemeData(
     shape: RoundedRectangleBorder(),
     tilePadding: EdgeInsets.symmetric(horizontal: 16.0),
     childrenPadding: EdgeInsets.symmetric(horizontal: 16.0),
+    collapsedIconColor: Colors.white70,
+    iconColor: Colors.white70,
   ),
 
   dialogBackgroundColor: darkColorScheme.surface,
@@ -112,11 +114,14 @@ final darkTheme = ThemeData(
   ),
 
   filledButtonTheme: FilledButtonThemeData(
-    style: FilledButton.styleFrom(
-      foregroundColor: Colors.red,
-      backgroundColor: darkColorScheme.primary,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      textStyle: const TextStyle(fontWeight: FontWeight.w600),
+      style: ButtonStyle(
+    foregroundColor: WidgetStateProperty.all(darkColorScheme.onPrimary),
+    backgroundColor: WidgetStateProperty.all(darkColorScheme.primary),
+    shape: WidgetStateProperty.all(
+      RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
-  ),
+    textStyle: WidgetStateProperty.all(
+      const TextStyle(fontWeight: FontWeight.w600),
+    ),
+  )),
 );
