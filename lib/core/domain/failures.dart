@@ -1,3 +1,4 @@
+//custom class that catches error in repo impl and result them as failure
 abstract class Failure {
   final String message;
 
@@ -10,5 +11,3 @@ abstract class Failure {
 class CacheFailure extends Failure {
   CacheFailure(super.message);
 }
-
-//update delete
