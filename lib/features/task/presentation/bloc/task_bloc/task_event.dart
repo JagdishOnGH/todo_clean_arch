@@ -45,5 +45,15 @@ class ToggleTaskCompletionEvent extends TaskEvent {
 class FilterTasksEvent extends TaskEvent {
   final bool? isCompleted;
 
-  const FilterTasksEvent(this.isCompleted);
+  const FilterTasksEvent(
+    this.isCompleted,
+  );
+}
+
+class SortByNewestFirstEvent extends TaskEvent {
+  final bool isNewestFirst;
+
+  const SortByNewestFirstEvent({
+    this.isNewestFirst = true,
+  });
 }
