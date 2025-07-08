@@ -18,16 +18,16 @@ class TaskLoadedState extends TaskState {
 }
 
 //when a task is added, deleted, updated, or toggled if error occurs that wont show error in main page
-class TaskOperationErrorState extends TaskState {
+class TaskOperationFailureState extends TaskState {
   final String message;
   final List<Task> tasks;
 
-  const TaskOperationErrorState(this.message, {required this.tasks});
+  const TaskOperationFailureState(this.message, {required this.tasks});
 }
 
 //when loading all tasks if error occurs that will show error in main page
-class TaskErrorState extends TaskState {
+class TaskLoadFailureState extends TaskState {
   final String message;
 
-  const TaskErrorState(this.message);
+  const TaskLoadFailureState(this.message);
 }
