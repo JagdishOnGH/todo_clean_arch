@@ -6,11 +6,13 @@ import 'package:todo_clean_arch/features/task/presentation/pages/list_tasks_page
 import 'package:todo_clean_arch/setup/get_it_setup.dart';
 
 import 'features/task/presentation/bloc/task_bloc/task_bloc.dart';
+import 'features/task/presentation/bloc/task_bloc/task_bloc_observer.dart';
 import 'features/task/presentation/bloc/task_bloc/task_event.dart';
 
 /// Main entry point for the Task Management application.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
   await getItSetup();
   runApp(const MyApp());
 }
