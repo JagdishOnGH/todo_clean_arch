@@ -58,24 +58,6 @@ class ListTasksPage extends StatelessWidget {
             title: const Text("My Tasks"),
             centerTitle: false,
             actions: [
-              //dropdown for sorting tasks dropdown btn
-              // DropdownButton<bool>(
-              //     items: [
-              //       DropdownMenuItem<bool>(
-              //         value: false,
-              //         child: const Text("Sort Oldest First"),
-              //       ),
-              //       DropdownMenuItem<bool>(
-              //         value: true,
-              //         child: const Text("Sort Newest First"),
-              //       ),
-              //     ],
-              //     onChanged: (sortBy) {
-              //       if (sortBy == null) return;
-              //       context.read<TaskBloc>().add(
-              //             SortByNewestFirstEvent(isNewestFirst: sortBy),
-              //           );
-              //     }),
               PopupMenuButton<bool>(
                 onSelected: (bool selectedValue) {
                   context.read<TaskBloc>().add(
