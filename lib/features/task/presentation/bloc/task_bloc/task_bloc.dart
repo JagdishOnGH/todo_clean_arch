@@ -32,29 +32,33 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<UpdateTaskEvent>(_onUpdateTask);
     on<ToggleTaskCompletionEvent>(_onToggleTaskCompletion);
     on<FilterTasksEvent>(_onFilterTasks);
+    on<SortByNewestFirstEvent>(_onSortByNewestFirst);
   }
 
   List<Task> allTasks = [];
 
-  // void filterTasks(bool? isCompleted) {
-  //   if (isCompleted == null) {
-  //     add(LoadAllTaskEvent());
-  //   } else {
-  //     final filteredTasks =
-  //         allTasks.where((task) => task.isCompleted == isCompleted).toList();
-  //     emit(TaskLoadedState(filteredTasks));
-  //   }
-  // }
+  bool? _isCompletedFilter;
+  bool _isSortByNewest = true;
 
   void _onFilterTasks(FilterTasksEvent event, Emitter<TaskState> emit) {
-    if (event.isCompleted == null) {
-      add(LoadAllTaskEvent());
-    } else {
-      final filteredTasks = allTasks
-          .where((task) => task.isCompleted == event.isCompleted)
-          .toList();
-      emit(TaskLoadedState(filteredTasks));
-    }
+    _isCompletedFilter = event.isCompleted;
+    final filteredTasks = _applyFilterAndSort(
+      allTasks: allTasks,
+      isCompletedFilter: event.isCompleted,
+      isSortByNewest: _isSortByNewest,
+    );
+    emit(TaskLoadedState(filteredTasks));
+  }
+
+  void _onSortByNewestFirst(
+      SortByNewestFirstEvent event, Emitter<TaskState> emit) {
+    _isSortByNewest = event.isNewestFirst;
+    final sortedTasks = _applyFilterAndSort(
+      allTasks: allTasks,
+      isCompletedFilter: _isCompletedFilter,
+      isSortByNewest: _isSortByNewest,
+    );
+    emit(TaskLoadedState(sortedTasks));
   }
 
   Future<void> _onLoadAllTasks(
@@ -65,7 +69,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       allTasks = result.value;
       emit(TaskLoadedState(result.value));
     } else {
-      emit(TaskErrorState(result.error.message));
+      emit(TaskLoadFailureState(result.error.message));
     }
   }
 
@@ -74,7 +78,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     if (result.isSuccess) {
       add(LoadAllTaskEvent());
     } else {
-      emit(TaskOperationErrorState(
+      emit(TaskOperationFailureState(
         result.error.message,
         tasks: allTasks,
       ));
@@ -87,7 +91,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     if (result.isSuccess) {
       add(LoadAllTaskEvent());
     } else {
-      emit(TaskOperationErrorState(
+      emit(TaskOperationFailureState(
         result.error.message,
         tasks: allTasks,
       ));
@@ -100,7 +104,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     if (result.isSuccess) {
       add(LoadAllTaskEvent());
     } else {
-      emit(TaskOperationErrorState(
+      emit(TaskOperationFailureState(
         result.error.message,
         tasks: allTasks,
       ));
@@ -113,10 +117,29 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     if (result.isSuccess) {
       add(LoadAllTaskEvent());
     } else {
-      emit(TaskOperationErrorState(
+      emit(TaskOperationFailureState(
         result.error.message,
         tasks: allTasks,
       ));
     }
+  }
+
+  List<Task> _applyFilterAndSort({
+    required List<Task> allTasks,
+    bool? isCompletedFilter,
+    required bool isSortByNewest,
+  }) {
+    var filtered = allTasks;
+
+    if (isCompletedFilter != null) {
+      filtered =
+          filtered.where((t) => t.isCompleted == isCompletedFilter).toList();
+    }
+
+    filtered.sort((a, b) => isSortByNewest
+        ? b.createdAt.compareTo(a.createdAt)
+        : a.createdAt.compareTo(b.createdAt));
+
+    return filtered;
   }
 }
