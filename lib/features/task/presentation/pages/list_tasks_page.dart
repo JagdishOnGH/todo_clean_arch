@@ -14,19 +14,19 @@ class ListTasksPage extends StatelessWidget {
   const ListTasksPage({super.key});
 
   @override
-  @override
   Widget build(BuildContext context) {
     final appSize = MediaQuery.of(context).size;
 
     return BlocConsumer<TaskBloc, TaskState>(
       listener: (ctx, state) {
-        final List<Task> tasksLists = [];
-        if (state is TaskLoadedState) {
-          tasksLists.addAll(state.tasks);
-        } else if (state is TaskOperationErrorState) {
-          tasksLists.addAll(state.tasks);
+        if (state is TaskOperationFailureState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Error: ${state.message}")),
+          );
+        }
+        if (state is TaskLoadFailureState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(" Failed to load data ${state.message}.")),
           );
         }
       },
@@ -37,7 +37,7 @@ class ListTasksPage extends StatelessWidget {
           );
         }
 
-        if (state is TaskErrorState) {
+        if (state is TaskLoadFailureState) {
           return Scaffold(
             appBar: AppBar(title: const Text("My Tasks")),
             body: Center(child: Text("Error: ${state.message}")),
@@ -49,9 +49,8 @@ class ListTasksPage extends StatelessWidget {
 
         if (state is TaskLoadedState) {
           tasks = state.tasks;
-        } else if (state is TaskOperationErrorState) {
-          tasks = List.from(state.tasks)
-            ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        } else if (state is TaskOperationFailureState) {
+          tasks = state.tasks;
         }
 
         return Scaffold(
@@ -59,6 +58,43 @@ class ListTasksPage extends StatelessWidget {
             title: const Text("My Tasks"),
             centerTitle: false,
             actions: [
+              //dropdown for sorting tasks dropdown btn
+              // DropdownButton<bool>(
+              //     items: [
+              //       DropdownMenuItem<bool>(
+              //         value: false,
+              //         child: const Text("Sort Oldest First"),
+              //       ),
+              //       DropdownMenuItem<bool>(
+              //         value: true,
+              //         child: const Text("Sort Newest First"),
+              //       ),
+              //     ],
+              //     onChanged: (sortBy) {
+              //       if (sortBy == null) return;
+              //       context.read<TaskBloc>().add(
+              //             SortByNewestFirstEvent(isNewestFirst: sortBy),
+              //           );
+              //     }),
+              PopupMenuButton<bool>(
+                onSelected: (bool selectedValue) {
+                  context.read<TaskBloc>().add(
+                        SortByNewestFirstEvent(isNewestFirst: selectedValue),
+                      );
+                },
+                icon: const Icon(Icons.calendar_month_outlined),
+                itemBuilder: (context) => const [
+                  PopupMenuItem<bool>(
+                    value: false,
+                    child: Text("Sort Oldest First"),
+                  ),
+                  PopupMenuItem<bool>(
+                    value: true,
+                    child: Text("Sort Newest First"),
+                  ),
+                ],
+              ),
+
               PopupMenuButton<String>(
                 icon: const Icon(Icons.tune),
                 onSelected: (value) {
