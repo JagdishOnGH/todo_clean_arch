@@ -15,7 +15,7 @@ class LocalTaskDataSourceImpl implements ITaskDataSource {
       await taskDao.addTask(task);
       return true;
     } catch (e) {
-      throw CacheException("Failed to add task: $e");
+      throw CacheException("Failed to add task");
     }
   }
 
@@ -25,7 +25,7 @@ class LocalTaskDataSourceImpl implements ITaskDataSource {
       await taskDao.deleteTask(task);
       return true;
     } catch (e) {
-      throw CacheException("Failed to delete task: $e");
+      throw CacheException("Failed to delete task:");
     }
   }
 
@@ -34,7 +34,7 @@ class LocalTaskDataSourceImpl implements ITaskDataSource {
     try {
       return taskDao.getAllTasks();
     } catch (e) {
-      throw CacheException("Failed to fetch tasks: $e");
+      throw CacheException("Failed to fetch tasks: ");
     }
   }
 
@@ -43,7 +43,7 @@ class LocalTaskDataSourceImpl implements ITaskDataSource {
     try {
       return taskDao.getTaskById(id);
     } catch (e) {
-      throw CacheException("Failed to fetch task by id: $e");
+      throw CacheException("Failed to fetch task by id: $id,");
     }
   }
 
@@ -53,7 +53,7 @@ class LocalTaskDataSourceImpl implements ITaskDataSource {
       taskDao.updateTask(task);
       return Future.value(true);
     } catch (e) {
-      throw CacheException("Failed to update task: $e");
+      throw CacheException("Failed to update task: ");
     }
   }
 }

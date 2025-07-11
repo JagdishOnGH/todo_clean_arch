@@ -15,14 +15,20 @@ class TaskModel {
   final int createdAt; // Store as milliseconds since epoch
   final int priority;
 
-  const TaskModel({
+  TaskModel({
     required this.id,
     required this.name,
     this.description,
     this.isCompleted = false,
     required this.createdAt,
     required this.priority,
-  });
+  }) {
+    // Ensure priority is within valid range
+    if (priority < 0 || priority >= TaskPriority.values.length) {
+      throw ArgumentError('Invalid priority value: $priority');
+    }
+    //date tryParse
+  }
 
 //toEntity
   Task toEntity() {

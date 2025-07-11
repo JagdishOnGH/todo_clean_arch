@@ -1,14 +1,23 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:todo_clean_arch/core/domain/failures.dart';
+import 'package:todo_clean_arch/core/domain/result.dart';
 import 'package:todo_clean_arch/features/task/data/dao/task_dao.dart';
 import 'package:todo_clean_arch/features/task/data/datasources/local_task_data_source_impl.dart';
 import 'package:todo_clean_arch/features/task/data/datasources/task_data_source.dart';
 import 'package:todo_clean_arch/features/task/data/model/task_model.dart';
+import 'package:todo_clean_arch/features/task/data/repository/task_repository_impl.dart';
+import 'package:todo_clean_arch/features/task/domain/repository/task_repository.dart';
+import 'package:todo_clean_arch/features/task/domain/usecase/create_task_usecase.dart';
 import 'package:todo_clean_arch/setup/floor_setup.dart';
+
+import 'repository_test.dart';
 
 void main() {
   late AppDatabase database;
   late TaskDao taskDao;
   late ITaskDataSource dataSource;
+  late ITaskRepository repository;
 
   setUp(() async {
     database = await $FloorAppDatabase.inMemoryDatabaseBuilder().build();
@@ -35,7 +44,7 @@ void main() {
     description: null,
     isCompleted: true,
     createdAt: DateTime.now().millisecondsSinceEpoch,
-    priority: 3,
+    priority: 2,
   );
 
   group('LocalTaskDataSourceImpl', () {
@@ -84,7 +93,7 @@ void main() {
         description: 'Updated Desc',
         isCompleted: true,
         createdAt: task1.createdAt,
-        priority: 5,
+        priority: 1,
       );
 
       await dataSource.updateTask(updatedTask);
@@ -92,7 +101,22 @@ void main() {
       final task = await dataSource.getTaskById(task1.id);
       expect(task!.name, 'Updated Task');
       expect(task.isCompleted, true);
-      expect(task.priority, 5);
+      expect(task.priority, 1);
+    });
+
+    //should throw ArguementError if priority is invalid (0,1,2)
+    test('should throw ArgumentError for invalid priority', () {
+      expect(
+        () => TaskModel(
+          id: 3,
+          name: 'Invalid Priority Task',
+          description: 'This task has an invalid priority',
+          isCompleted: false,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          priority: 5, // Invalid priority
+        ),
+        throwsA(isA<ArgumentError>()),
+      );
     });
 
     test('should delete a task', () async {
@@ -107,6 +131,50 @@ void main() {
       await dataSource.deleteTask(task2);
       final tasks = await dataSource.getAllTasks();
       expect(tasks, isEmpty); // still empty, no crash
+    });
+    test("No conflict with negative and 0 id ", () async {
+      final result = await dataSource.addTask(invalidId);
+
+      final allTasks = await dataSource.getAllTasks();
+      if (kDebugMode) {
+        print('allTasks: ${allTasks[0].id}');
+      }
+      expect(result, isA<bool>());
+    });
+  });
+
+  group("use case test", () {
+    final emptyTask = TaskModel(
+      id: 0,
+      name: '',
+      description: null,
+      isCompleted: false,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      priority: 0,
+    );
+    late CreateTaskUseCase createTaskUseCase;
+    //create a
+    setUp(() {
+      repository = TaskRepositoryImpl(dataSource);
+      createTaskUseCase = CreateTaskUseCase(repository);
+    });
+    test("Create task use case should return success", () async {
+      final result = await createTaskUseCase(task1.toEntity());
+      expect(result.isSuccess, true);
+    });
+    test("Create task use case should throw error for invalid priority", () {
+      expect(
+        () => createTaskUseCase(invalidTask1.toEntity()),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
+    test("Create task use case should throw error for empty task", () async {
+      final result = await createTaskUseCase(emptyTask.toEntity());
+      expect(
+          result,
+          isA<DomainFailure<bool, Failure>>().having((p0) {
+            return p0.isSuccess;
+          }, "", false));
     });
   });
 }

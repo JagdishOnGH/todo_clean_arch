@@ -11,3 +11,8 @@ abstract class Failure {
 class CacheFailure extends Failure {
   CacheFailure(super.message);
 }
+
+//invalid input failure
+class InvalidInputFailure extends Failure {
+  InvalidInputFailure(super.message);
+}
