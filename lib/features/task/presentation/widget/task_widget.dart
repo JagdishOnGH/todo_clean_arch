@@ -54,11 +54,8 @@ class TaskWidget extends StatelessWidget {
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         leading: IconButton(
           onPressed: () {
-            final toggledTask = task.copyWith(
-              isCompleted: !task.isCompleted,
-            );
             context.read<TaskBloc>().add(
-                  ToggleTaskCompletionEvent(toggledTask),
+                  ToggleTaskCompletionEvent(task),
                 );
           },
           icon: Icon(

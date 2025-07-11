@@ -13,6 +13,9 @@ class UpdateTaskUseCase {
   UpdateTaskUseCase(this._taskRepository);
 
   Future<Result<bool, Failure>> call(Task task) async {
+    if (task.title.isEmpty) {
+      return DomainFailure(InvalidInputFailure('Task title cannot be empty'));
+    }
     return await _taskRepository.updateTask(task);
   }
 }

@@ -9,6 +9,9 @@ class ToggleTaskUseCase {
   ToggleTaskUseCase(this._taskRepository);
 
   Future<Result<bool, Failure>> call(Task task) async {
-    return await _taskRepository.updateTask(task);
+    final toggledTask = task.copyWith(
+      isCompleted: !task.isCompleted,
+    );
+    return await _taskRepository.updateTask(toggledTask);
   }
 }
