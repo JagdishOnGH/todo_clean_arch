@@ -14,89 +14,87 @@ Future<void> showTaskFormDialog(BuildContext con) {
   TaskPriority selectedPriority = TaskPriority.medium;
 
   return showDialog(
-    context: con,
-    builder: (context) => SingleChildScrollView(
-      child: AlertDialog(
-        title: const Text("Add Task"),
-        content: StatefulBuilder(
-          builder: (ctx, setState) => Form(
-            key: formKey,
-            child: SizedBox(
-              width: 400,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  /// Title TextField (Required)
-                  TextFormField(
-                    controller: titleController,
-                    decoration: const InputDecoration(
-                      labelText: 'Title',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (val) => val == null || val.trim().isEmpty
-                        ? 'Title is required'
-                        : null,
-                  ),
-                  const SizedBox(height: 18),
+      context: con,
+      builder: (context) => SingleChildScrollView(
+            child: AlertDialog(
+              title: const Text("Add Task"),
+              content: StatefulBuilder(
+                builder: (ctx, setState) => Form(
+                  key: formKey,
+                  child: SizedBox(
+                    width: 400,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        /// Title TextField (Required)
+                        TextFormField(
+                          controller: titleController,
+                          decoration: const InputDecoration(
+                            labelText: 'Title',
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (val) => val == null || val.trim().isEmpty
+                              ? 'Title is required'
+                              : null,
+                        ),
+                        const SizedBox(height: 18),
 
-                  /// Description TextField (Optional)
-                  TextFormField(
-                    controller: descController,
-                    decoration: const InputDecoration(
-                      labelText: 'Description (optional)',
-                      border: OutlineInputBorder(),
-                    ),
-                    maxLines: 2,
-                  ),
-                  const SizedBox(height: 18),
+                        TextFormField(
+                          controller: descController,
+                          decoration: const InputDecoration(
+                            labelText: 'Description (optional)',
+                            border: OutlineInputBorder(),
+                          ),
+                          maxLines: 2,
+                        ),
+                        const SizedBox(height: 18),
 
-                  /// Priority Dropdown (Required)
-                  DropdownButtonFormField<TaskPriority>(
-                    value: selectedPriority,
-                    decoration: const InputDecoration(
-                      labelText: 'Priority',
-                      border: OutlineInputBorder(),
+                        /// Priority Dropdown (Required)
+                        DropdownButtonFormField<TaskPriority>(
+                          value: selectedPriority,
+                          decoration: const InputDecoration(
+                            labelText: 'Priority',
+                            border: OutlineInputBorder(),
+                          ),
+                          items: TaskPriority.values.map((priority) {
+                            return DropdownMenuItem<TaskPriority>(
+                              value: priority,
+                              child: Text(priority.asString),
+                            );
+                          }).toList(),
+                          onChanged: (val) => setState(() =>
+                              selectedPriority = val ?? TaskPriority.medium),
+                          validator: (val) =>
+                              val == null ? 'Priority is required' : null,
+                        ),
+                      ],
                     ),
-                    items: TaskPriority.values.map((priority) {
-                      return DropdownMenuItem<TaskPriority>(
-                        value: priority,
-                        child: Text(priority.asString),
-                      );
-                    }).toList(),
-                    onChanged: (val) => setState(
-                        () => selectedPriority = val ?? TaskPriority.medium),
-                    validator: (val) =>
-                        val == null ? 'Priority is required' : null,
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Cancel"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                final Task task = Task(
-                    id: DateTime.now().millisecondsSinceEpoch,
-                    title: titleController.text,
-                    createdAt: DateTime.now(),
-                    description: descController.text,
-                    priority: selectedPriority);
-                context.read<TaskBloc>().add(AddTaskEvent(task));
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text("Cancel"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      final Task task = Task(
+                          id: DateTime.now().millisecondsSinceEpoch,
+                          title: titleController.text,
+                          createdAt: DateTime.now(),
+                          description: descController.text,
+                          priority: selectedPriority);
+                      context.read<TaskBloc>().add(AddTaskEvent(task));
 
-                Navigator.of(context).pop();
-                // Handle newTask with Bloc or Provider (emit event or call notifier)
-              }
-            },
-            child: const Text("Submit"),
-          ),
-        ],
-      ),
-    ),
-  );
+                      Navigator.of(context).pop();
+                      // Handle newTask with Bloc or Provider (emit event or call notifier)
+                    }
+                  },
+                  child: const Text("Submit"),
+                ),
+              ],
+            ),
+          ));
 }
